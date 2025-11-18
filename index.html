@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Форма платёжного поручения</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: #05060a;
+      color: #e5ecff;
+      padding: 30px 10px;
+    }
+
+    .card {
+      background: #111822;
+      border-radius: 8px;
+      padding: 24px 24px 28px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .card h1 {
+      margin: 0 0 20px;
+      font-size: 22px;
+      font-weight: 500;
+      color: #e5ecff;
+    }
+
+    .step-indicator {
+      font-size: 12px;
+      color: #a5b4d4;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 6px;
+      color: #e5ecff;
+    }
+
+    .required {
+      color: #ff6b6b;
+      margin-left: 2px;
+    }
+
+    .hint {
+      display: block;
+      font-size: 11px;
+      color: #9aa7c8;
+      margin-top: 3px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 9px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #2c3648;
+      background: #141b27;
+      color: #e5ecff;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #3c82ff;
+      box-shadow: 0 0 0 1px rgba(60, 130, 255, 0.35);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+      max-height: 180px;
+    }
+
+    .note {
+      font-size: 11px;
+      color: #9aa7c8;
+      margin-bottom: 14px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      gap: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      min-width: 90px;
+      border: none;
+      border-radius: 4px;
+      padding: 9px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #2f63c7;
+      color: #f4f6ff;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:hover {
+      background: #3875eb;
+    }
+
+    .btn-secondary {
+      background: #1f2837;
+      color: #d6defa;
+    }
+
+    .btn-secondary:hover {
+      background: #273347;
+    }
+
+    .btn[disabled] {
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Форма платёжного поручения</h1>
+    <div class="step-indicator" id="stepIndicator">Шаг 1 из 3 — данные импортера</div>
+
+    <form id="multiStepForm">
+      <!-- Шаг 1 -->
+      <div class="step" data-step="1">
+        <div class="form-group">
+          <label>Наименование импортера<span class="required">*</span></label>
+          <input type="text" name="importer_name" required
+                 placeholder="Например: GLOBAL TRADE LTD" />
+          <span class="hint">на английском языке</span>
+        </div>
+
+        <div class="form-group">
+          <label>Страна импортера<span class="required">*</span></label>
+          <input type="text" name="importer_country" required
+                 placeholder="Например: United Kingdom" />
+          <span class="hint">на английском языке</span>
+        </div>
+
+        <div class="form-group">
+          <label>Город импортера<span class="required">*</span></label>
+          <input type="text" name="importer_city" required
+                 placeholder="Например: London" />
+          <span class="hint">на английском языке</span>
+        </div>
+
+        <div class="form-group">
+          <label>Улица, дом, офис импортера<span class="required">*</span></label>
+          <input type="text" name="importer_address" required
+                 placeholder="Например: Baker Street 15, office 2B" />
+          <span class="hint">на английском языке</span>
+        </div>
+      </div>
+
+      <!-- Шаг 2 -->
+      <div class="step hidden" data-step="2">
+        <p class="note">Поле «Банк (наименование)» не обязательно: обычно подтягивается по SWIFT.</p>
+
+        <div class="form-group">
+          <label>Банк (наименование)</label>
+          <input type="text" name="bank_name"
+                 placeholder="Например: BANK OF AMERICA N.A." />
+        </div>
+
+        <div class="form-group">
+          <label>Номер счета импортера<span class="required">*</span></label>
+          <input type="text" name="importer_account" required
+                 placeholder="Например: IBAN / номер счета" />
+        </div>
+
+        <div class="form-group">
+          <label>SWIFT банка импортера<span class="required">*</span></label>
+          <input type="text" name="importer_swift" required
+                 placeholder="Например: BOFAUS3N" />
+        </div>
+      </div>
+
+      <!-- Шаг 3 -->
+      <div class="step hidden" data-step="3">
+        <div class="form-group">
+          <label>Экспортный контракт (номер, дата)<span class="required">*</span></label>
+          <textarea name="export_contract" required
+                    placeholder="Например: 123 dd 12.12.2025"></textarea>
+          <span class="hint">формат: 123 dd 12.12.2025</span>
+        </div>
+
+        <div class="form-group">
+          <label>Код Валютной Операции (КВО)</label>
+          <select name="kvo_code">
+            <option value="">(не установлено)</option>
+            <option>{10100} – поставка товара</option>
+            <option>{10200} – поставка товара</option>
+            <option>{20100} – оказание услуги</option>
+            <option>{20200} – оказание услуги</option>
+            <option>{21500} – оказание услуги</option>
+            <option>{60080} – поставка товара</option>
+            <option>{60081} – оказание услуги</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Назначение платежа по экспортному контракту<span class="required">*</span></label>
+          <textarea name="payment_purpose" required
+                    placeholder="Кратко опишите назначение платежа по контракту"></textarea>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="btn btn-secondary" id="prevBtn">Назад</button>
+        <button type="button" class="btn" id="nextBtn">Далее</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const steps = Array.from(document.querySelectorAll(".step"));
+    const stepIndicator = document.getElementById("stepIndicator");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const form = document.getElementById("multiStepForm");
+
+    let currentStep = 1;
+    updateStep();
+
+    prevBtn.addEventListener("click", () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStep();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      // валидация только полей текущего шага
+      const currentStepEl = steps.find(s => +s.dataset.step === currentStep);
+      const requiredFields = currentStepEl.querySelectorAll("[required]");
+      for (const field of requiredFields) {
+        if (!field.value.trim()) {
+          field.focus();
+          return;
+        }
+      }
+
+      if (currentStep < steps.length) {
+        currentStep++;
+        updateStep();
+      } else {
+        // финальная отправка
+        form.reportValidity();
+        // здесь можно сделать отправку через fetch/XHR
+        alert("Форма заполнена (демо). Дальше — отправка на сервер.");
+      }
+    });
+
+    function updateStep() {
+      steps.forEach(step => {
+        step.classList.toggle("hidden", +step.dataset.step !== currentStep);
+      });
+
+      prevBtn.disabled = currentStep === 1;
+      nextBtn.textContent = currentStep === steps.length ? "Отправить" : "Далее";
+
+      if (currentStep === 1) {
+        stepIndicator.textContent = "Шаг 1 из 3 — данные импортера";
+      } else if (currentStep === 2) {
+        stepIndicator.textContent = "Шаг 2 из 3 — банковские реквизиты";
+      } else {
+        stepIndicator.textContent = "Шаг 3 из 3 — контракт и КВО";
+      }
+    }
+  </script>
+</body>
+</html>
