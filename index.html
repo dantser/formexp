@@ -36,12 +36,6 @@
       color: #e5ecff;
     }
 
-    .step-indicator {
-      font-size: 12px;
-      color: #a5b4d4;
-      margin-bottom: 16px;
-    }
-
     .form-group {
       margin-bottom: 16px;
     }
@@ -56,13 +50,6 @@
     .required {
       color: #ff6b6b;
       margin-left: 2px;
-    }
-
-    .hint {
-      display: block;
-      font-size: 11px;
-      color: #9aa7c8;
-      margin-top: 3px;
     }
 
     input[type="text"],
@@ -92,12 +79,6 @@
       max-height: 180px;
     }
 
-    .note {
-      font-size: 11px;
-      color: #9aa7c8;
-      margin-bottom: 14px;
-    }
-
     .buttons {
       display: flex;
       justify-content: space-between;
@@ -118,10 +99,6 @@
       transition: background 0.15s ease, transform 0.05s ease;
     }
 
-    .btn:active {
-      transform: translateY(1px);
-    }
-
     .btn:hover {
       background: #3875eb;
     }
@@ -133,6 +110,10 @@
 
     .btn-secondary:hover {
       background: #273347;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
     }
 
     .btn[disabled] {
@@ -148,9 +129,9 @@
 <body>
   <div class="card">
     <h1>Форма платёжного поручения</h1>
-    <div class="step-indicator" id="stepIndicator">Шаг 1 из 3 — данные импортера</div>
 
     <form id="multiStepForm">
+
       <!-- Шаг 1 -->
       <div class="step" data-step="1">
         <div class="form-group">
@@ -174,15 +155,8 @@
         </div>
       </div>
 
-      <!-- Шаг 2 -->
+      <!-- Шаг 2 — без поля банк -->
       <div class="step hidden" data-step="2">
-        <p class="note">Поле «Банк (наименование)» не обязательно: обычно подтягивается по SWIFT.</p>
-
-        <div class="form-group">
-          <label>Банк (наименование)</label>
-          <input type="text" name="bank_name" />
-        </div>
-
         <div class="form-group">
           <label>Номер счета импортера<span class="required">*</span></label>
           <input type="text" name="importer_account" required />
@@ -198,8 +172,8 @@
       <div class="step hidden" data-step="3">
         <div class="form-group">
           <label>Экспортный контракт (номер, дата)<span class="required">*</span></label>
-          <textarea name="export_contract" required></textarea>
-          <span class="hint">пример: 123 dd 12.12.2025</span>
+          <textarea name="export_contract" required
+                    placeholder="123 dd 12.12.2025"></textarea>
         </div>
 
         <div class="form-group">
@@ -226,12 +200,12 @@
         <button type="button" class="btn btn-secondary" id="prevBtn">Назад</button>
         <button type="button" class="btn" id="nextBtn">Далее</button>
       </div>
+
     </form>
   </div>
 
   <script>
     const steps = Array.from(document.querySelectorAll(".step"));
-    const stepIndicator = document.getElementById("stepIndicator");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     const form = document.getElementById("multiStepForm");
@@ -249,6 +223,7 @@
     nextBtn.addEventListener("click", () => {
       const currentStepEl = steps.find(s => +s.dataset.step === currentStep);
       const requiredFields = currentStepEl.querySelectorAll("[required]");
+
       for (const field of requiredFields) {
         if (!field.value.trim()) {
           field.focus();
@@ -272,14 +247,6 @@
 
       prevBtn.disabled = currentStep === 1;
       nextBtn.textContent = currentStep === steps.length ? "Отправить" : "Далее";
-
-      if (currentStep === 1) {
-        stepIndicator.textContent = "Шаг 1 из 3 — данные импортера";
-      } else if (currentStep === 2) {
-        stepIndicator.textContent = "Шаг 2 из 3 — банковские реквизиты";
-      } else {
-        stepIndicator.textContent = "Шаг 3 из 3 — контракт и КВО";
-      }
     }
   </script>
 </body>
