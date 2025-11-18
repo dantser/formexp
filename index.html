@@ -155,30 +155,22 @@
       <div class="step" data-step="1">
         <div class="form-group">
           <label>Наименование импортера<span class="required">*</span></label>
-          <input type="text" name="importer_name" required
-                 placeholder="Например: GLOBAL TRADE LTD" />
-          <span class="hint">на английском языке</span>
+          <input type="text" name="importer_name" required />
         </div>
 
         <div class="form-group">
           <label>Страна импортера<span class="required">*</span></label>
-          <input type="text" name="importer_country" required
-                 placeholder="Например: United Kingdom" />
-          <span class="hint">на английском языке</span>
+          <input type="text" name="importer_country" required />
         </div>
 
         <div class="form-group">
           <label>Город импортера<span class="required">*</span></label>
-          <input type="text" name="importer_city" required
-                 placeholder="Например: London" />
-          <span class="hint">на английском языке</span>
+          <input type="text" name="importer_city" required />
         </div>
 
         <div class="form-group">
           <label>Улица, дом, офис импортера<span class="required">*</span></label>
-          <input type="text" name="importer_address" required
-                 placeholder="Например: Baker Street 15, office 2B" />
-          <span class="hint">на английском языке</span>
+          <input type="text" name="importer_address" required />
         </div>
       </div>
 
@@ -188,20 +180,17 @@
 
         <div class="form-group">
           <label>Банк (наименование)</label>
-          <input type="text" name="bank_name"
-                 placeholder="Например: BANK OF AMERICA N.A." />
+          <input type="text" name="bank_name" />
         </div>
 
         <div class="form-group">
           <label>Номер счета импортера<span class="required">*</span></label>
-          <input type="text" name="importer_account" required
-                 placeholder="Например: IBAN / номер счета" />
+          <input type="text" name="importer_account" required />
         </div>
 
         <div class="form-group">
           <label>SWIFT банка импортера<span class="required">*</span></label>
-          <input type="text" name="importer_swift" required
-                 placeholder="Например: BOFAUS3N" />
+          <input type="text" name="importer_swift" required />
         </div>
       </div>
 
@@ -209,9 +198,8 @@
       <div class="step hidden" data-step="3">
         <div class="form-group">
           <label>Экспортный контракт (номер, дата)<span class="required">*</span></label>
-          <textarea name="export_contract" required
-                    placeholder="Например: 123 dd 12.12.2025"></textarea>
-          <span class="hint">формат: 123 dd 12.12.2025</span>
+          <textarea name="export_contract" required></textarea>
+          <span class="hint">пример: 123 dd 12.12.2025</span>
         </div>
 
         <div class="form-group">
@@ -230,8 +218,7 @@
 
         <div class="form-group">
           <label>Назначение платежа по экспортному контракту<span class="required">*</span></label>
-          <textarea name="payment_purpose" required
-                    placeholder="Кратко опишите назначение платежа по контракту"></textarea>
+          <textarea name="payment_purpose" required></textarea>
         </div>
       </div>
 
@@ -260,7 +247,6 @@
     });
 
     nextBtn.addEventListener("click", () => {
-      // валидация только полей текущего шага
       const currentStepEl = steps.find(s => +s.dataset.step === currentStep);
       const requiredFields = currentStepEl.querySelectorAll("[required]");
       for (const field of requiredFields) {
@@ -274,10 +260,8 @@
         currentStep++;
         updateStep();
       } else {
-        // финальная отправка
         form.reportValidity();
-        // здесь можно сделать отправку через fetch/XHR
-        alert("Форма заполнена (демо). Дальше — отправка на сервер.");
+        alert("Форма заполнена (демо).");
       }
     });
 
