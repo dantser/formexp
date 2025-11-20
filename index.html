@@ -189,10 +189,16 @@
             <option>{60081} – оказание услуги</option>
           </select>
         </div>
-
-        <div class="form-group">
+            <div class="form-group">
           <label>Назначение платежа по экспортному контракту<span class="required">*</span></label>
-          <textarea name="payment_purpose" required></textarea>
+          <select name="payment_purpose" required>
+            <option value="">(не установлено)</option>
+            <option>EQUIPMENT</option>
+            <option>INSTRUMENTS</option>
+            <option>MATERIALS</option>
+            <option>SOFTWARE</option>
+            <option>GOODS</option>
+          </select>
         </div>
       </div>
 
